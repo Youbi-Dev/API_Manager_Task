@@ -6,54 +6,294 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+# Task Manager API
 
-## About Laravel
+A simple RESTful API for managing tasks built with Laravel. This project provides complete CRUD operations for task management without any frontend interface.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- ✅ Create new tasks
+- ✅ View all tasks
+- ✅ View single task
+- ✅ Update existing tasks
+- ✅ Delete tasks
+- ✅ JSON responses
+- ✅ Input validation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technology Stack
 
-## Learning Laravel
+- **Framework**: Laravel 10/11
+- **Database**: MySQL/SQLite
+- **API Testing**: Postman
+- **Architecture**: RESTful API
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Database Schema
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Tasks Table
 
-## Laravel Sponsors
+| Field | Type | Required | Default |
+|-------|------|----------|---------|
+| id | integer | auto | - |
+| title | string | yes | - |
+| description | text | no | null |
+| is_completed | boolean | no | false |
+| created_at | timestamp | auto | - |
+| updated_at | timestamp | auto | - |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Installation
 
-### Premium Partners
+### Prerequisites
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP >= 8.1
+- Composer
+- MySQL or SQLite
 
-## Contributing
+### Setup Steps
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd task-manager-api
+```
 
-## Code of Conduct
+2. **Install dependencies**
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Configure environment**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+4. **Configure database in `.env`**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task_manager
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. **Run migrations**
+```bash
+php artisan migrate
+```
 
-## License
+6. **Start the server**
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The API will be available at `http://127.0.0.1:8000`
+
+## API Endpoints
+
+### Base URL
+```
+http://127.0.0.1:8000/api
+```
+
+### Endpoints Overview
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /tasks | Get all tasks |
+| POST | /tasks | Create a new task |
+| GET | /tasks/{id} | Get a specific task |
+| PUT/PATCH | /tasks/{id} | Update a task |
+| DELETE | /tasks/{id} | Delete a task |
+
+## API Documentation
+
+### 1. Get All Tasks
+
+**Request:**
+```http
+GET /api/tasks
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "title": "Buy groceries",
+    "description": "Milk, Eggs, Bread",
+    "is_completed": false,
+    "created_at": "2024-01-01T10:00:00.000000Z",
+    "updated_at": "2024-01-01T10:00:00.000000Z"
+  }
+]
+```
+
+### 2. Create a New Task
+
+**Request:**
+```http
+POST /api/tasks
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, Eggs, Bread",
+  "is_completed": false
+}
+```
+
+**Validation Rules:**
+- `title`: required, string, max 255 characters
+- `description`: optional, string
+- `is_completed`: optional, boolean
+
+**Response (201 Created):**
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "description": "Milk, Eggs, Bread",
+  "is_completed": false,
+  "created_at": "2024-01-01T10:00:00.000000Z",
+  "updated_at": "2024-01-01T10:00:00.000000Z"
+}
+```
+
+### 3. Get a Specific Task
+
+**Request:**
+```http
+GET /api/tasks/1
+```
+
+**Response (200 OK):**
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "description": "Milk, Eggs, Bread",
+  "is_completed": false,
+  "created_at": "2024-01-01T10:00:00.000000Z",
+  "updated_at": "2024-01-01T10:00:00.000000Z"
+}
+```
+
+**Response (404 Not Found):**
+```json
+{
+  "message": "Task not found"
+}
+```
+
+### 4. Update a Task
+
+**Request:**
+```http
+PUT /api/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, Eggs, Bread, Cheese",
+  "is_completed": true
+}
+```
+
+**Note:** You can update one or more fields. All fields are optional in the update request.
+
+**Response (200 OK):**
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "description": "Milk, Eggs, Bread, Cheese",
+  "is_completed": true,
+  "created_at": "2024-01-01T10:00:00.000000Z",
+  "updated_at": "2024-01-01T10:30:00.000000Z"
+}
+```
+
+### 5. Delete a Task
+
+**Request:**
+```http
+DELETE /api/tasks/1
+```
+
+**Response (200 OK):**
+```json
+{
+  "message": "Task deleted successfully"
+}
+```
+
+**Response (404 Not Found):**
+```json
+{
+  "message": "Task not found"
+}
+```
+
+## Testing with Postman
+
+1. **Import the API endpoints** into Postman
+2. **Set the base URL**: `http://127.0.0.1:8000/api`
+3. **Test each endpoint** following the documentation above
+
+### Example Postman Collection Structure
+
+```
+Task Manager API
+├── Get All Tasks (GET)
+├── Create Task (POST)
+├── Get Single Task (GET)
+├── Update Task (PUT)
+└── Delete Task (DELETE)
+```
+
+## Project Structure
+
+```
+app/
+├── Http/
+│   └── Controllers/
+│       └── TaskController.php    # Main API controller
+├── Models/
+│   └── Task.php                  # Task model
+database/
+├── migrations/
+│   └── xxxx_create_tasks_table.php
+routes/
+├── api.php                       # API routes
+```
+
+## Error Handling
+
+The API returns appropriate HTTP status codes:
+
+- `200 OK`: Successful GET, PUT, DELETE
+- `201 Created`: Successful POST
+- `404 Not Found`: Resource not found
+- `422 Unprocessable Entity`: Validation errors
+
+### Validation Error Example
+
+**Request:**
+```json
+{
+  "description": "No title provided"
+}
+```
+
+**Response (422):**
+```json
+{
+  "message": "The title field is required.",
+  "errors": {
+    "title": [
+      "The title field is required."
+    ]
+  }
+}
+```
