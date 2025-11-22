@@ -6,23 +6,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-# Task Manager API
+
+## Task Manager API
 
 A simple RESTful API for managing tasks built with Laravel. This project provides complete CRUD operations for task management without any frontend interface.
 
-## Features
-
-- ✅ Create new tasks
-- ✅ View all tasks
-- ✅ View single task
-- ✅ Update existing tasks
-- ✅ Delete tasks
-- ✅ JSON responses
-- ✅ Input validation
-
 ## Technology Stack
 
-- **Framework**: Laravel 10/11
+- **Framework**: Laravel 12
 - **Database**: MySQL/SQLite
 - **API Testing**: Postman
 - **Architecture**: RESTful API
